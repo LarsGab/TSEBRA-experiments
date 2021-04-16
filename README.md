@@ -1,7 +1,7 @@
 # PrEvCo-Experiments
 
-This repository contains contains all data and scripts used for the experinments of the [Prevco Paper]. 
-Both experiment require that PrEvCo has been downloaded and that its ```bin``` folder is added to ```$PATH```.
+This repository contains all data and scripts used for the experinments of the [Prevco Paper]. 
+Both experiment require that [PrEvCo](https://github.com/LarsGab/PrEvCo) has been downloaded and that its ```bin``` folder is added to ```$PATH```.
 Instructions can be found in each species folder. Genome and annotation files have to be prepared as descripted in https://github.com/gatech-genemark/EukSpecies-BRAKER2. Additional dependencies for both experiments are explained below and you need to add all programs to your ```$PATH``` variable. 
 
 ## 1. Experiment
