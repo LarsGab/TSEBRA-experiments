@@ -10,7 +10,7 @@ The first experiment was carried out with all species listed in ```species.tab``
 
 ### Dependencies
 If you want to do this experiment from scratch, you need:
-* BRAKER v2.1.5 from https://github.com/Gaius-Augustus/BRAKER/releases/tag/v2.1.5 
+* [BRAKER v2.1.5](https://github.com/Gaius-Augustus/BRAKER/releases/tag/v2.1.5)
 * RNA-seq and protein hints as described in https://github.com/gatech-genemark/BRAKER2-exp.
 
 Alternatively, you can use the BRAKER1 and BRAKER2 results provided at [Link to Webserver], in which case you only need to install TSEBRA. 
