@@ -22,11 +22,11 @@ The second experiment was carried out with all model species listed in ```model_
 ### Dependencies
 
 For this experiment you need to install:
-* EVidenceModeler from https://github.com/EVidenceModeler/EVidenceModeler
+* [EVidenceModeler](https://github.com/EVidenceModeler/EVidenceModeler)
 
 If you want to do this experiment from scratch you need the dependencies from the first experiment and you need to install:
-* Trinity v2.12.0 https://github.com/trinityrnaseq/trinityrnaseq/releases/tag/v2.12.0
-* PASA v2.4.1 https://github.com/PASApipeline/PASApipeline/releases/tag/pasa-v2.4.1
+* [Trinity v2.12.0](https://github.com/trinityrnaseq/trinityrnaseq/releases/tag/v2.12.0)
+* [PASA v2.4.1](https://github.com/PASApipeline/PASApipeline/releases/tag/pasa-v2.4.1)
 * ...
 
 ### References
