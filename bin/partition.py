@@ -99,8 +99,10 @@ def partition(gene_set, transcript, spaln, genome):
     sp.call(cmd, shell=True)
 
     # partition all data for EVM
-    os.mkdir('{}/partitions/'.format(workdir))
-    os.chdir('{}/partitions/'.format(workdir))
+    part_dir = '{}/partitions/'.format(workdir)
+    if not os.path.exists(part_dir):
+        os.mkdir(part_dir)
+    os.chdir(part_dir)
     partitions = '{}/partitions/part.lst'.format(workdir)
     cmd = '{}/EvmUtils/partition_EVM_inputs.pl --genome {} '.format(evm, genome) \
         + '--gene_predictions {} --transcript_alignments {} '.format(gene_set, transcript) \

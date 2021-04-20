@@ -19,6 +19,7 @@ def main():
         seed_value = random.randrange(sys.maxsize)
         with open('{}/seed_value.out'.format(args.partition_dir), 'w+') as file:
             file.write(str(seed_value))
+    print(seed_value)
     random.seed(seed_value)
 
     # sample partitions into 10% train and 90% test sets

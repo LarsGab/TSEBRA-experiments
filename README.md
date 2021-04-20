@@ -72,7 +72,9 @@ tsebra.py -g ${braker1_dir}/braker_fixed.gtf,${braker2_dir}/braker_fixed.gtf -c 
 ```
 
 ### Evaluation
-ToDo: provide script that writes a line with scores
+```console
+eval_exp1.py --species_dir $species_dir --test_level $level
+```
 
 ## 2. Experiment (Comparison to EVidenceModeler)
 
@@ -150,7 +152,12 @@ Partiton and prepare all data for EVM, TSEBRA and their evaluation:
 partition.py --species_dir $species_dir --test_level $level --evm_path $evm_path --out ${species_dir}/EVM/${level}/
 ```
 
-Sample 90% of the partions as test set:
+If you want to reconstruct the results from [PAPER] then use the provided partition test set:
+```console
+sed -i "s,pathtoyoutpartitions,$species_dir/EVM/$level/partitions/,g" ${species_dir}/EVM/${level}/partitions/part_test.lst
+sed -i "s,pathtoyoutpartitions,$species_dir/EVM/$level/partitions/,g" ${species_dir}/EVM/${level}/partitions/part_train.lst
+```
+Or you can sample 90% of the partions as test set:
 ```console
 sample_partitions.py --partition_dir ${species_dir}/EVM/${level}/partitions/ --seed ${species_dir}/EVM/${level}/seed_value.out
 ```
@@ -158,11 +165,16 @@ sample_partitions.py --partition_dir ${species_dir}/EVM/${level}/partitions/ --s
 ### EVM
 
 ```console
-runEVM.py --data_dir ${species_dir}/EVM/${level} --evm_path $evm_path --threads 4
+runEVM.py --species_dir $species_dir --test_level $level --evm_path $evm_path --threads 4
 ```
 ### TSEBRA
+```console
+runTSEBRA.py --species_dir $species_dir --test_level $level --threads 4
+```
 
 ### Evaluation
-
+```console
+eval_exp2.py --species_dir $species_dir --test_level $level --threads 4
+```
 
 ### References

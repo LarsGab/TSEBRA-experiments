@@ -19,13 +19,13 @@ bin = os.path.dirname(os.path.realpath(__file__))
 workdir = ''
 partition_list = []
 weights = ''
-
+threads = 1
 def main():
-    global evm, workdir, partition_list, weights, bin
+    global evm, workdir, partition_list, weights, bin, threads
     args = parseCmd()
-    workdir = os.path.abspath(args.data_dir)
+    workdir = os.path.abspath('{}/EVM/{}/'.format(args.species_dir, args.test_level))
     evm = os.path.abspath(args.evm_path)
-
+    threads = args.threads
     # read partition lists
     partition_list_path = '{}/partitions/part_test.lst'.format(workdir)
     with open(partition_list_path, 'r') as file:
@@ -38,12 +38,13 @@ def main():
     if not os.path.exists(weights):
         raise FileMissing('Weight file is missing at: {}'.format(weights))
 
-    #for part in partition_list:
-        #prediction(part[3], part[0])
-
+    '''
+    for part in partition_list:
+        prediction(part[3], part[0])
+    '''
     # Run evm predicitons
     job_results = []
-    pool = mp.Pool(args.threads)
+    pool = mp.Pool(threads)
     for part in partition_list:
         r = pool.apply_async(prediction, (part[3], part[0]))
         job_results.append(r)
@@ -51,7 +52,6 @@ def main():
         r.wait()
     pool.close()
     pool.join()
-
 def prediction(exec_dir, contig):
     # make a EVM predcition for one partition
     part_name = exec_dir.split('/')[-1]
@@ -67,7 +67,7 @@ def prediction(exec_dir, contig):
     q = sp.Popen(evm_cmd, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
     stdout, stderr = q.communicate()
     if stderr.decode():
-        sys.stderr.write('Error in {} with: {}'.format(cmd, stderr.decode()))
+        sys.stderr.write('Error in {} with: {}'.format(evm_cmd, stderr.decode()))
 
     # check if EVM predicted at least one gene and convert evm.out to gff and gtf format
     if not os.stat(evm_out).st_size == 0:
@@ -86,7 +86,9 @@ def parseCmd():
         dictionary: Dictionary with arguments
     """
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--data_dir', type=str,
+    parser.add_argument('--species_dir', type=str,
+        help='')
+    parser.add_argument('--test_level', type=str,
         help='')
     parser.add_argument('--evm_path', type=str,
         help='')

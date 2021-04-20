@@ -22,7 +22,9 @@ cfg = ''
 def main():
     global evm, workdir, partition_list, cfg, bin
     args = parseCmd()
-    workdir = os.path.abspath(args.data_dir)
+
+    workdir = os.path.abspath('{}/EVM/{}/'.format(args.species_dir, args.test_level))
+
     # read partition lists
     partition_list_path = '{}/partitions/part_test.lst'.format(workdir)
     with open(partition_list_path, 'r') as file:
@@ -34,6 +36,9 @@ def main():
     cfg = '{}/tsebra.cfg'.format(workdir)
     if not os.path.exists(cfg):
         raise FileMissing('Weight file is missing at: {}'.format(cfg))
+
+    #for part in partition_list:
+        #prediction(part[3])
 
     # Run TSEBRA predicitons
     job_results = []
@@ -48,7 +53,6 @@ def main():
 
 def prediction(exec_dir):
     # make a TSEBRA predcition for one partition and evaluate it
-
     cmd = 'tsebra.py -g {}/braker1.gtf,{}/braker2.gtf '.format(exec_dir, exec_dir) \
         + '-e {}/braker_pasa.gff,{}/braker_protein.gff '.format(exec_dir, exec_dir) \
         + '-c {} -o {}/tsebra_EVM.gtf -q'.format(cfg, exec_dir)
@@ -70,7 +74,9 @@ def parseCmd():
         dictionary: Dictionary with arguments
     """
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--data_dir', type=str,
+    parser.add_argument('--species_dir', type=str,
+        help='')
+    parser.add_argument('--test_level', type=str,
         help='')
     parser.add_argument('--threads', type=int,
         help='')
