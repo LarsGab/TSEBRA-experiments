@@ -9,8 +9,8 @@ import csv
 import sys
 
 class Transcript:
-    '''Handles the alignment of one transcript from the assembly
-    '''
+    # Handles the alignment of one transcript from the assembly
+
     def __init__(self, id):
         self.id = id
         self.chr = None
@@ -107,7 +107,7 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Creates hints for EVM and TSEBRA from PASA assembly')
     parser.add_argument('--pasa', type=str,
         help='PASA assembly')
     parser.add_argument('--braker_out', type=str,

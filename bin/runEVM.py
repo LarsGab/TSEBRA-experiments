@@ -23,9 +23,11 @@ threads = 1
 def main():
     global evm, workdir, partition_list, weights, bin, threads
     args = parseCmd()
+
     workdir = os.path.abspath('{}/EVM/{}/'.format(args.species_dir, args.test_level))
     evm = os.path.abspath(args.evm_path)
     threads = args.threads
+
     # read partition lists
     partition_list_path = '{}/partitions/part_test.lst'.format(workdir)
     with open(partition_list_path, 'r') as file:
@@ -85,13 +87,13 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Run EVM for a set of partitions')
     parser.add_argument('--species_dir', type=str,
-        help='')
+        help='Directory containing the results of TSEBRA-experiment 1 for one species')
     parser.add_argument('--test_level', type=str,
-        help='')
+        help='One of "species_excluded", "family_excluded" or "order_excluded"')
     parser.add_argument('--evm_path', type=str,
-        help='')
+        help='Path to the directory where EVidenceModeler is installed')
     parser.add_argument('--threads', type=int,
         help='')
     return parser.parse_args()

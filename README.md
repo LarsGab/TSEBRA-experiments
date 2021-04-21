@@ -21,7 +21,8 @@ species_dir=$(pwd)"/$species"
 You have to choose a level of exclusion for the protein database of the BRAKER2 run.
 We used for the species listed in ```model_species.tab``` the levels 'species_excluded', 'family_excluded', 'order_excluded' for all other species we used only 'order_excluded'.
 ```console
-### Choose a test level and remove the '#':
+### Choose a test level and remove the '#'
+### Only choose species_excluded or family_excluded if your species is listed in model_species.tab
 #level="species_excluded"
 #level="family_excluded"
 #level="order_excluded"
@@ -30,7 +31,7 @@ braker1_dir="${species_dir}/braker1/"
 braker2_dir="${species_dir}/braker2/${level}"
 ```
 
-### BRAKER1 and BRAKER2
+### BRAKER1<sup name="a1">[1](#ref1)</sup> and BRAKER2<sup name="a2">[2](#ref2)</sup>
 You can use the BRAKER1 and BRAKER2 results prepared at [Link to Webserver]:
 ```console
 wget link/to/webserver/$species.tar.gz
@@ -43,8 +44,6 @@ Then you have to
 * install [BRAKER v2.1.5](https://github.com/Gaius-Augustus/BRAKER/releases/tag/v2.1.5),
 * prepare genome and annotation as described in [EukSpecies-BRAKER2](https://github.com/gatech-genemark/EukSpecies-BRAKER2),
 * prepare RNA-seq hints and protein data as described in [BRAKER2-exp](https://github.com/gatech-genemark/BRAKER2-exp) into ```$species_dir```.
-
-make sure the files are at the correct positions (script)
 
 You have to run BRAKER1 only once per species!
 
@@ -80,7 +79,7 @@ tsebra.py -g ${braker1_dir}/braker_fixed.gtf,${braker2_dir}/braker_fixed.gtf -c 
 eval_exp1.py --species_dir $species_dir --test_level $level
 ```
 
-## 2. Experiment (Comparison to EVidenceModeler)
+## 2. Experiment (Comparison to EVidenceModeler<sup name="a3">[3](#ref3)</sup>)
 
 The second experiment was carried out with all model species listed in ```model_species.tab``` and the following manual only works for these species. In this experiment we compared TSEBRA with EVidenceModeler (EVM) [cite].
 
@@ -113,7 +112,7 @@ wget link/to/webserver/$species.tar.gz
 tar -xzvf $species.tar.gz ${species}/EVM/ -C ${species_dir}
 ```
 
-### PASA
+### PASA<sup name="a4">[4](#ref4)</sup>
 You can use the PASA results we have prepared and copy them to your ```$species_dir```.
 They are already in your ```$species_dir``` and you do not need to run following commands, if you used the prepared files in the 1. Experiment. Otherwise:
 ```console
@@ -132,7 +131,7 @@ Extract RNA-read sequences from VARUS.bam
 samtools fasta ${species_dir}/varus/VARUS.bam > ${species_dir}/varus/VARUS.fasta
 ```
 
-Run Trinity (you can change the max_memory and CPU to suit your system):
+Run Trinity<sup name="a5">[5](#ref5)</sup> (you can change the max_memory and CPU to suit your system):
 ```console
 Trinity --seqType fa --max_memory 4G --CPU 4 --single ${species_dir}/varus/VARUS.fasta --run_as_paired --output ${species_dir}/trinity/
 ```
@@ -167,18 +166,44 @@ sample_partitions.py --partition_dir ${species_dir}/EVM/${level}/partitions/ --s
 ```
 
 ### EVM
-
+Run EVM for all test partitions. (adjust the number of threads to fit your system)
 ```console
 runEVM.py --species_dir $species_dir --test_level $level --evm_path $evm_path --threads 4
 ```
 ### TSEBRA
+Run TSEBRA for all test partitions. (adjust the number of threads to fit your system)
 ```console
 runTSEBRA.py --species_dir $species_dir --test_level $level --threads 4
 ```
 
 ### Evaluation
+Evaluate the test partitions. (adjust the number of threads to fit your system)
 ```console
 eval_exp2.py --species_dir $species_dir --test_level $level --threads 4
 ```
+The results are located at ```$species_dir/EVM/$level/evaluation/```.
+
+## Summary of all Results
+Enter here the path to the directory containing the folders for the species for which you have performed the experiments.
+
+```console
+parent_dir="Enter path to parent dir"
+```
+
+Create table with all available results.
+```console
+eval_summary.py --parent_dir $parent_dir
+```
+Each row contains the result for a species and test level. A row contains the result for the 2. Experiment if results for both experiments are present.
+You can find the table in the parent directory.
 
 ### References
+<b id="ref1">[1]</b> Hoff, Katharina J, Simone Lange, Alexandre Lomsadze, Mark Borodovsky, and Mario Stanke. 2015. “BRAKER1: Unsupervised Rna-Seq-Based Genome Annotation with Genemark-et and Augustus.” *Bioinformatics* 32 (5). Oxford University Press: 767--69.[↑](#a1)
+
+<b id="ref2">[2]</b> Tomas Bruna, Katharina J. Hoff, Alexandre Lomsadze, Mario Stanke and Mark Borodvsky. 2021. “BRAKER2: automatic eukaryotic genome annotation with GeneMark-EP+ and AUGUSTUS supported by a protein database." *NAR Genomics and Bioinformatics* 3(1):lqaa108.[↑](#a2)
+
+<b id="ref3">[3]</b> Haas, B. J., Salzberg, S. L., Zhu, W., Pertea, M., Allen, J. E., Orvis, J., ... & Wortman, J. R. 2008. Automated eukaryotic gene structure annotation using EVidenceModeler and the Program to Assemble Spliced Alignments. Genome biology, 9(1), 1-22.[↑](#a3)
+
+<b id="ref4">[4]</b> Haas, B.J., Delcher, A.L., Mount, S.M., Wortman, J.R., Smith Jr, R.K., Jr., Hannick, L.I., Maiti, R., Ronning, C.M., Rusch, D.B., Town, C.D. et al. 2003 Improving the Arabidopsis genome annotation using maximal transcript alignment assemblies. Nucleic Acids Res, 31, 5654-5666.[↑](#a4)
+
+<b id="ref5">[5]</b> Grabherr, M. G., Haas, B. J., Yassour, M., Levin, J. Z., Thompson, D. A., Amit, I., ... & Regev, A. 2011. Trinity: reconstructing a full-length transcriptome without a genome from RNA-Seq data. Nature biotechnology, 29(7), 644.[↑](#a5)

@@ -2,8 +2,8 @@
 # ==============================================================
 # author: Lars Gabriel
 #
-# eval_exp2.py: Evaluate a set of partitions from a genome for:
-#           BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TESEBRA_default
+# eval_exp1.py: Evaluate a set of partitions from a genome for:
+#           BRAKER1, BRAKER2, TESEBRA_default
 # ==============================================================
 import argparse
 import subprocess as sp
@@ -99,11 +99,12 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Evaluate predictions ' \
+        + 'from: BRAKER1, BRAKER2, TESEBRA_default ')
     parser.add_argument('--test_level', type=str,
-        help='')
+        help='One of "species_excluded", "family_excluded" or "order_excluded"')
     parser.add_argument('--species_dir', type=str,
-        help='')
+        help='Directory containing the results of TSEBRA-experiment 1 for one species')
     return parser.parse_args()
 
 if __name__ == '__main__':

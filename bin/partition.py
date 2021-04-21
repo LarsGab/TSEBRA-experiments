@@ -2,7 +2,7 @@
 # ==============================================================
 # author: Lars Gabriel
 #
-# partition.py: Partitons and prepares all data necassary for a comparison of TSEBRA and EVidenceModeler
+# partition.py: Partiton and prepare all data necassary for a comparison of TSEBRA and EVidenceModeler
 # ==============================================================
 
 import argparse
@@ -68,6 +68,8 @@ def braker2evm(braker1, braker2, braker_path):
     call_process(cmd)
 
 def prep_partition(partition, anno, pseudo, braker1, braker2, tsebra_default):
+    # add files necassary for TSEBRA and evaluation to all partitions
+
     os.chdir(partition)
     dir = partition.strip('/').split('/')[-1]
     chr = dir.split('_')[0]
@@ -93,6 +95,8 @@ def prep_partition(partition, anno, pseudo, braker1, braker2, tsebra_default):
         sp.call(cmd, shell=True)
 
 def partition(gene_set, transcript, spaln, genome):
+    # partition all files that EVM uses
+
     # get topProteins from Spaln alignment
     protein = '{}/topProteins.gff'.format(workdir)
     cmd = 'grep topProt=TRUE {} > {}'.format(spaln, protein)
@@ -108,6 +112,7 @@ def partition(gene_set, transcript, spaln, genome):
         + '--gene_predictions {} --transcript_alignments {} '.format(gene_set, transcript) \
         + '--protein_alignments {} --segmentSize {} '.format(protein, segmentSize) \
         + '--overlapSize {} --partition_listing {}'.format(overlapSize, partitions)
+    print(cmd)
     sp.call(cmd, shell=True)
 
     return partitions
@@ -145,7 +150,8 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description=' Partiton and prepare all data ' \
+        + 'necassary for a comparison of TSEBRA and EVidenceModeler')
     parser.add_argument('--species_dir', type=str,
         help='Path to directory where all necassary files reside.')
     parser.add_argument('--test_level', type=str,

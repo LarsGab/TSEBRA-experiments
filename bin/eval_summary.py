@@ -83,9 +83,10 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Collect the evaluations of multiple species and test level' \
+        + 'for TSEBRA-experiment 1 and 2')
     parser.add_argument('--parent_dir', type=str,
-        help='')
+        help='Directory containing results for TSEBRA-experiments for different species')
     return parser.parse_args()
 
 if __name__ == '__main__':

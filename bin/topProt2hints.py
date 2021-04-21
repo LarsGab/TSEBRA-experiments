@@ -81,7 +81,8 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Creates hints for EVM and ' \
+        + 'TSEBRA from ProteinAlignment file in gff format')
     parser.add_argument('--topProts', type=str,
         help='Protein alignments')
     parser.add_argument('--evm_out', type=str,

@@ -27,7 +27,7 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Convert file from gff3 to gtf ')
     parser.add_argument('--gff', type=str,
         help='File in gff3 format')
     parser.add_argument('--out', type=str,

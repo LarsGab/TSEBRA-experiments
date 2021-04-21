@@ -73,11 +73,11 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Run TSEBRA for a set of partitions')
     parser.add_argument('--species_dir', type=str,
-        help='')
+        help='Directory containing the results of TSEBRA-experiment 1 for one species')
     parser.add_argument('--test_level', type=str,
-        help='')
+        help='One of "species_excluded", "family_excluded" or "order_excluded"')
     parser.add_argument('--threads', type=int,
         help='')
     return parser.parse_args()

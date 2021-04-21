@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# ==============================================================
+# author: Lars Gabriel
+#
+# braker2evm_format.py: Concatinate BRAKER1 and BRAKER2 prediction
+# into a file in gff format that is compatible with EVM
+# ==============================================================
 import argparse
 import subprocess as sp
 import os
@@ -65,15 +72,16 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Concatinate BRAKER1 and BRAKER2 prediction ' \
+        'into a file in gff format that is compatible with EVM')
     parser.add_argument('--braker1', type=str,
-        help='')
+        help='BRAKER1 prediciton')
     parser.add_argument('--braker2', type=str,
-        help='')
+        help='BRAKER2 prediciton')
     parser.add_argument('--evm', type=str,
-        help='')
+        help='Path where EVM is installed')
     parser.add_argument('--out', type=str,
-        help='')
+        help='Output file')
     return parser.parse_args()
 
 if __name__ == '__main__':

@@ -126,6 +126,7 @@ def collector(r):
 
 def job(gene_pred):
     global part_eval_result
+
     part_eval_result = []
     job_results = []
 
@@ -222,11 +223,12 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Evaluate a set of partitions ' \
+        + 'from a genome for predictions from: BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TESEBRA_default.')
     parser.add_argument('--test_level', type=str,
-        help='')
+        help='One of "species_excluded", "family_excluded" or "order_excluded".')
     parser.add_argument('--species_dir', type=str,
-        help='')
+        help='Directory containing the results of TSEBRA-experiment 1 for one species.')
     parser.add_argument('--threads', type=int,
         help='')
     return parser.parse_args()
