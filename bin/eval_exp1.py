@@ -14,7 +14,6 @@ import sys
 class EvalError(Exception):
     pass
 
-evm_bin = os.path.dirname(os.path.realpath(__file__))
 species_dir = ''
 modes = ['cds', 'trans', 'gene']
 measures = ['F1', 'Sn', 'Sp']

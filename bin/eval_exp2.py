@@ -38,7 +38,6 @@ class Score:
             return self.tp / (1/2 * (self.fn + self.fp) + self.tp)
         return 0
 
-evm_bin = os.path.dirname(os.path.realpath(__file__))
 workdir = ''
 partition_list = []
 modes = ['cds', 'trans', 'gene']
@@ -80,6 +79,7 @@ def single_eval(eval, mea):
     # prints a line for the evaluation one measure (col = mode_method)
     # header
     tab = []
+    line = []
     for mo in modes:
         line += [' ', ' ', mo, ' ', ' ']
     tab.append(line)
@@ -89,7 +89,7 @@ def single_eval(eval, mea):
     line = []
     for mo in modes:
         for meth in methods:
-            line.append(round(100 * eval[meth][mo][mea],2))
+            line.append(100 * eval[meth][mo][mea])
     tab.append(line)
 
     csv_writer(tab, '{}/evaluation/{}.eval.tab'.format(workdir, mea))
@@ -109,7 +109,7 @@ def full_eval(eval):
         line = [meth]
         for mo in modes:
             for mea in measures:
-                line.append(round(100 * eval[meth][mo][mea],2))
+                line.append(100 * eval[meth][mo][mea])
         tab.append(line)
 
     csv_writer(tab, '{}/evaluation/full.eval.out'.format(workdir))
@@ -227,7 +227,7 @@ def parseCmd():
         help='')
     parser.add_argument('--species_dir', type=str,
         help='')
-    parser.add_argument('--threads', type=str,
+    parser.add_argument('--threads', type=int,
         help='')
     return parser.parse_args()
 

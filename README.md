@@ -1,7 +1,11 @@
 # TSEBRA-Experiments
 
 This repository contains all data and scripts used for the experiments of the [TSEBRA Paper].
-Both experiments require that [TSEBRA](https://github.com/LarsGab/TSEBRA) has been downloaded and that its ```bin``` folder is added to ```$PATH```.
+Both experiments require that [TSEBRA](https://github.com/LarsGab/TSEBRA) has been downloaded and that its ```bin``` folder is added to ```$PATH```, e.g.:
+```console
+git clone https://github.com/LarsGab/TSEBRA
+export PATH="$(pwd)/TSEBRA/bin:$PATH"
+```
 
 <h2 id="1-exp"> 1. Experiment (Comparison to BRAKER1 and BRAKER2)</h2>
 
@@ -86,7 +90,7 @@ For this experiment you need to
 * perform the [1. Experiment](#1-exp),
 * install [EVidenceModeler](https://github.com/EVidenceModeler/EVidenceModeler).
 
-If you haven not done it for the 1. Experiment:
+If you haven't done it for the 1. Experiment:
 * prepare genome and annotation as described in [EukSpecies-BRAKER2](https://github.com/gatech-genemark/EukSpecies-BRAKER2)
 
 Choose a species and replace "Enter species" with a species name from ```model_species.tab```, e.g. "Drosophila_melanogaster".
