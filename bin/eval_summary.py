@@ -66,7 +66,7 @@ def main():
                     out_tab.append(line)
 
         csv_write(out_tab, '{}/{}.eval.tab'.format(out_dir, mea))
-        
+
     sys.stderr.write('### Finished, results are located at {}\n'.format(out_dir))
 
 def csv_write(tab, out_path):
@@ -90,7 +90,7 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='Collect the evaluations of multiple species and test level' \
+    parser = argparse.ArgumentParser(description='Collect the evaluations of species and test level' \
         + 'for TSEBRA-experiment 1 and 2')
     parser.add_argument('--parent_dir', type=str,
         help='Directory containing results for TSEBRA-experiments for different species')

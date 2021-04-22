@@ -1,12 +1,17 @@
+#!/usr/bin/env python3
+# ==============================================================
+# author: Lars Gabriel
+#
+# plot_exp2.py: Plot average F1-score on gene, transcript and CDS level for the second experiment.
+# ==============================================================
 import argparse
 import matplotlib.pyplot as plt
-from matplotlib.transforms import offset_copy
 from matplotlib.lines import Line2D
 import os
 import csv
 import math
 from statistics import mean
-from copy import deepcopy
+import sys
 
 class Axis_range:
     # search for a good axis range and set axis ticks
@@ -51,9 +56,11 @@ class Coordinate:
 eval_label = ['cds_F1', 'cds_Sn', 'cds_Sp', 'trans_F1', 'trans_Sn', 'trans_Sp', 'gene_F1', 'gene_Sn', 'gene_Sp']
 def main():
     args = parseCmd()
+
     species = ['Arabidopsis thaliana', 'Caenorhabditis elegans', 'Drosophila melanogaster']
     eval_level = ['CDS level', 'Transcript level', 'Gene level']
-    color = {'BRAKER1' : 'skyblue', 'BRAKER2' : 'blue', 'EVM' : 'green', 'TSEBRA_EVM' : 'orange', 'TSEBRA_default' : 'red'}
+    color = {'BRAKER1' : 'skyblue', 'BRAKER2' : 'blue', 'EVM' : 'green', \
+        'TSEBRA_EVM' : 'orange', 'TSEBRA_default' : 'red'}
     test_level = ['species_excluded', 'family_excluded', 'order_excluded']
     data = os.path.abspath(args.parent_dir)
 
@@ -85,7 +92,6 @@ def main():
                     if not label in coords[c.method].keys():
                         coords[c.method].update({label : []})
                     coords[c.method][label].append(c.values[label])
-    print(coords.keys())
 
     # plot average Sp and Sn
     axis = [Axis_range(), Axis_range(), Axis_range()]
@@ -94,19 +100,9 @@ def main():
         for j, level in zip([0,1,2], ['cds', 'trans', 'gene']):
             sp = '{}_Sp'.format(level)
             sn = '{}_Sn'.format(level)
-            if not len(coords[method][sn]) == 9:
-                print(method + ' ' + species[i])
-                print(coords[method][sn])
             axis[j].add_coords(mean(coords[method][sp]), mean(coords[method][sn]))
             axes[j].scatter(mean(coords[method][sp]), mean(coords[method][sn]), color=color[method], linewidths=2, \
                 edgecolor='none', marker='o', s=100, alpha=0.8)
-
-    for method in coords.keys():
-        for level in ['cds', 'trans', 'gene']:
-            f1 = '{}_F1'.format(level)
-            print(f1)
-            print(method)
-            print(mean(coords[method][f1]))
 
     # set axis ranges and ticks
     for j in [0,1,2]:
@@ -118,14 +114,13 @@ def main():
         axes[j].xaxis.set_ticks(axis[j].x_ticks)
         axes[j].yaxis.set_ticks(axis[j].y_ticks)
 
-
     fig.legend(bbox_to_anchor=(0.05, 0.03, 0.92, 0), handles=legend1_elements, loc='lower center', \
         borderaxespad=0., ncol=5, mode='expand')
     fig.tight_layout()
     fig.subplots_adjust(left=0.05, right=0.97, top=0.9, bottom=0.175)
 
-    plt.show()
-
+    fig.savefig('{}/evaluation/plot_exp2.png'.format(data), dpi=fig.dpi)
+    sys.stderr.write('### Finished, plot is located at {}/evaluation/plot_exp2.png\n'.format(data))
 def read_eval(eval_file):
     coords = []
     if os.path.exists(eval_file):
@@ -143,9 +138,10 @@ def parseCmd():
     Returns:
         dictionary: Dictionary with arguments
     """
-    parser = argparse.ArgumentParser(description='')
+    parser = argparse.ArgumentParser(description='Plot average F1-score on gene, ' \
+        + 'transcript and CDS level for the second experiment.')
     parser.add_argument('--parent_dir', type=str,
-        help='')
+        help='Directory containing results for TSEBRA-experiments for different species')
     return parser.parse_args()
 
 if __name__ == '__main__':

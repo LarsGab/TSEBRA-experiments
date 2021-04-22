@@ -1,6 +1,7 @@
 # TSEBRA-Experiments
 
 This repository contains all data and scripts used for the experiments of the [TSEBRA Paper].
+
 Both experiments require that [TSEBRA](https://github.com/LarsGab/TSEBRA) has been downloaded and that its ```bin``` folder is added to ```$PATH```, e.g.:
 ```console
 git clone https://github.com/LarsGab/TSEBRA
@@ -12,14 +13,14 @@ export PATH="$(pwd)/TSEBRA/bin:$PATH"
 The first experiment was carried out with all species listed in ```species.tab```. It demonstrates the increase of accuarcies of TSEBRA compared to BRAKER1 and BRAKER2.
 
 ### Before you start
-Choose a species and replace "Enter species" with a species name from ```species.tab```, e.g. "Drosophila_melanogaster".
+Choose a species and replace "Enter species" with a species name from ```species.tab```, e.g. "Bombus_terrestris".
 ```console
 species="Enter_species"
 species_dir=$(pwd)"/$species"
 ```
 
 You have to choose a level of exclusion for the protein database of the BRAKER2 run.
-We used for the species listed in ```model_species.tab``` the levels 'species_excluded', 'family_excluded', 'order_excluded' for all other species we used only 'order_excluded'.
+We used the levels 'species_excluded', 'family_excluded', 'order_excluded' for the species listed in ```model_species.tab```. For all other species we only used 'order_excluded'.
 ```console
 ### Choose a test level and remove the '#'
 ### Only choose species_excluded or family_excluded if your species is listed in model_species.tab
@@ -32,7 +33,7 @@ braker2_dir="${species_dir}/braker2/${level}"
 ```
 
 ### BRAKER1<sup name="a1">[1](#ref1)</sup> and BRAKER2<sup name="a2">[2](#ref2)</sup>
-You can use the BRAKER1 and BRAKER2 results prepared at [Link to Webserver]:
+You can use the BRAKER1 and BRAKER2 results prepared at ToDo: [Link to Webserver]:
 ```console
 wget link/to/webserver/$species.tar.gz
 tar -xzvf $species.tar.gz
@@ -75,9 +76,12 @@ tsebra.py -g ${braker1_dir}/braker_fixed.gtf,${braker2_dir}/braker_fixed.gtf -c 
 ```
 
 ### Evaluation
+Compute F1-score, Sensitivity, Specificity:
 ```console
 eval_exp1.py --species_dir $species_dir --test_level $level
 ```
+
+The TSEBRA and evaluation results are located at ```$species_dir/tsebra_default/$level/```.
 
 ## Experiment 2 (Comparison to EVidenceModeler<sup name="a3">[3](#ref3)</sup>)
 
@@ -86,11 +90,12 @@ The second experiment was carried out with all model species listed in ```model_
 ### Before you start
 
 For this experiment you need to
-* perform the [Experiment 1](#1-exp),
+* perform [Experiment 1](#1-exp),
 * install [EVidenceModeler](https://github.com/EVidenceModeler/EVidenceModeler).
 
 If you haven't done it for the first Experiment:
 * prepare genome and annotation as described in [EukSpecies-BRAKER2](https://github.com/gatech-genemark/EukSpecies-BRAKER2)
+* install [TSEBRA](https://github.com/LarsGab/TSEBRA)
 
 Choose a species and replace "Enter species" with a species name from ```model_species.tab```, e.g. "Drosophila_melanogaster".
 ```console
@@ -106,7 +111,7 @@ Choose a level of exclusion for the protein database of the BRAKER2 run and remo
 #level="order_excluded"
 ```
 
-Please download the prepared file from [Enter link to webserver], if you do not already work with the prepared files:
+Download the prepared files from ToDo[Enter link to webserver], if you didn't download them for the first experiment.
 ```console
 wget link/to/webserver/$species.tar.gz
 tar -xzvf $species.tar.gz ${species}/EVM/ -C ${species_dir}
@@ -114,7 +119,9 @@ tar -xzvf $species.tar.gz ${species}/EVM/ -C ${species_dir}
 
 ### PASA<sup name="a4">[4](#ref4)</sup>
 You can use the PASA results we have prepared and copy them to your ```$species_dir```.
-They are already in your ```$species_dir``` and you do not need to run following commands, if you used the prepared files in the experiment 1. Otherwise:
+They are already in your ```$species_dir``` and you do not need to run following commands, if you used the prepared files in the experiment 1.
+
+Otherwise:
 ```console
 tar -xzvf $species.tar.gz $species/pasa/ -C $species_dir
 ```
@@ -155,12 +162,12 @@ Partiton and prepare all data for EVM, TSEBRA and their evaluation:
 partition.py --species_dir $species_dir --test_level $level --evm_path $evm_path --out ${species_dir}/EVM/${level}/
 ```
 
-If you want to reconstruct the results from [PAPER] then use the provided partition test set:
+If you want to reconstruct the results from ToDo: [PAPER] then use the provided partition test set:
 ```console
 sed -i "s,pathtoyoutpartitions,$species_dir/EVM/$level/partitions/,g" ${species_dir}/EVM/${level}/partitions/part_test.lst
 sed -i "s,pathtoyoutpartitions,$species_dir/EVM/$level/partitions/,g" ${species_dir}/EVM/${level}/partitions/part_train.lst
 ```
-Or you can sample 90% of the partions as test set:
+Or you can sample 90% of the partions as the test set:
 ```console
 sample_partitions.py --partition_dir ${species_dir}/EVM/${level}/partitions/ --seed ${species_dir}/EVM/${level}/seed_value.out
 ```
@@ -196,6 +203,17 @@ eval_summary.py --parent_dir $parent_dir
 ```
 Each row contains the result for a species and test level. A row contains the result for the second experiment if results for both experiments are present.
 You can find the table in ```$parent_dir/evaluation/```.
+
+
+You can plot the average Sensitivity and Specificity for all species in ```$parent_dir``` for gene, transcript and CDS level from the second experiment. This requires that ```matplotlib``` is installed, e.g. with :
+```console
+pip install matplotlib
+```
+Create plot:
+```console
+eval_summary.py --parent_dir $parent_dir
+```
+You can find the plot at ```$parent_dir/evaluation/plot_exp2.png```.
 
 ## Licence
 All source code, i.e. `bin/*.py` and `bin/*.pl` are under the Artistic License (see <https://opensource.org/licenses/Artistic-2.0>).
