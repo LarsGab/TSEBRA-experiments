@@ -7,7 +7,7 @@ git clone https://github.com/LarsGab/TSEBRA
 export PATH="$(pwd)/TSEBRA/bin:$PATH"
 ```
 
-<h2 id="1-exp"> 1. Experiment (Comparison to BRAKER1 and BRAKER2)</h2>
+<h2 id="1-exp"> Experiment 1 (Comparison to BRAKER1 and BRAKER2)</h2>
 
 The first experiment was carried out with all species listed in ```species.tab```. It demonstrates the increase of accuarcies of TSEBRA compared to BRAKER1 and BRAKER2.
 
@@ -79,17 +79,17 @@ tsebra.py -g ${braker1_dir}/braker_fixed.gtf,${braker2_dir}/braker_fixed.gtf -c 
 eval_exp1.py --species_dir $species_dir --test_level $level
 ```
 
-## 2. Experiment (Comparison to EVidenceModeler<sup name="a3">[3](#ref3)</sup>)
+## Experiment 2 (Comparison to EVidenceModeler<sup name="a3">[3](#ref3)</sup>)
 
 The second experiment was carried out with all model species listed in ```model_species.tab``` and the following manual only works for these species. In this experiment we compared TSEBRA with EVidenceModeler (EVM) [cite].
 
 ### Before you start
 
 For this experiment you need to
-* perform the [1. Experiment](#1-exp),
+* perform the [Experiment 1](#1-exp),
 * install [EVidenceModeler](https://github.com/EVidenceModeler/EVidenceModeler).
 
-If you haven't done it for the 1. Experiment:
+If you haven't done it for the first Experiment:
 * prepare genome and annotation as described in [EukSpecies-BRAKER2](https://github.com/gatech-genemark/EukSpecies-BRAKER2)
 
 Choose a species and replace "Enter species" with a species name from ```model_species.tab```, e.g. "Drosophila_melanogaster".
@@ -114,7 +114,7 @@ tar -xzvf $species.tar.gz ${species}/EVM/ -C ${species_dir}
 
 ### PASA<sup name="a4">[4](#ref4)</sup>
 You can use the PASA results we have prepared and copy them to your ```$species_dir```.
-They are already in your ```$species_dir``` and you do not need to run following commands, if you used the prepared files in the 1. Experiment. Otherwise:
+They are already in your ```$species_dir``` and you do not need to run following commands, if you used the prepared files in the experiment 1. Otherwise:
 ```console
 tar -xzvf $species.tar.gz $species/pasa/ -C $species_dir
 ```
@@ -194,7 +194,7 @@ Create table with all available results.
 ```console
 eval_summary.py --parent_dir $parent_dir
 ```
-Each row contains the result for a species and test level. A row contains the result for the 2. Experiment if results for both experiments are present.
+Each row contains the result for a species and test level. A row contains the result for the second experiment if results for both experiments are present.
 You can find the table in ```$parent_dir/evaluation/```.
 
 ## Licence
