@@ -195,7 +195,7 @@ Create table with all available results.
 eval_summary.py --parent_dir $parent_dir
 ```
 Each row contains the result for a species and test level. A row contains the result for the 2. Experiment if results for both experiments are present.
-You can find the table in the parent directory.
+You can find the table in ```$parent_dir/evaluation/```.
 
 ## Licence
 All source code, i.e. `bin/*.py` and `bin/*.pl` are under the Artistic License (see <https://opensource.org/licenses/Artistic-2.0>).
