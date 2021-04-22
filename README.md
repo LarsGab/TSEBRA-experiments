@@ -1,6 +1,6 @@
 # TSEBRA-Experiments
 
-This repository contains all data and scripts used for the experiments of the [TSEBRA Paper].
+This repository contains all data and scripts used for the experiments of the ToDo: [TSEBRA Paper].
 
 Both experiments require that [TSEBRA](https://github.com/LarsGab/TSEBRA) has been downloaded and that its ```bin``` folder is added to ```$PATH```, e.g.:
 ```console
@@ -126,7 +126,7 @@ Otherwise:
 tar -xzvf $species.tar.gz $species/pasa/ -C $species_dir
 ```
 
-Alternatively, you can create your own PASA[cite] run. Then, you have to make your own VARUS run from scratch as decribed in [BRAKER2-exp](https://github.com/gatech-genemark/BRAKER2-exp) into ```$species_dir/varus/``` and you have to install:
+Alternatively, you can create your own PASA run. Then, you have to make your own VARUS run from scratch as decribed in [BRAKER2-exp](https://github.com/gatech-genemark/BRAKER2-exp) into ```$species_dir/varus/``` and you have to install:
 * [samtools](https://github.com/samtools/samtools)
 * [Trinity v2.12.0](https://github.com/trinityrnaseq/trinityrnaseq/releases/tag/v2.12.0)
 * [PASA v2.4.1](https://github.com/PASApipeline/PASApipeline/releases/tag/pasa-v2.4.1)
