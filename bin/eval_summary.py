@@ -13,7 +13,7 @@ exp_bin = os.path.dirname(os.path.realpath(__file__))
 measures = ['F1', 'Sn', 'Sp']
 modes = ['cds', 'trans', 'gene']
 test_level = ['species_excluded', 'family_excluded', 'order_excluded']
-methods = ['BRAKER1', 'BRAKER2', 'EVM', 'TSEBRA_EVM', 'TESEBRA_default']
+methods = ['BRAKER1', 'BRAKER2', 'EVM', 'TSEBRA_EVM', 'TSEBRA_default']
 workdir = ''
 
 def main():
@@ -21,6 +21,9 @@ def main():
     args = parseCmd()
 
     workdir = os.path.abspath(args.parent_dir)
+    out_dir ='{}/evaluation/'.format(workdir)
+    if not os.path.exists(out_dir):
+        os.mkdir(out_dir)
 
     # read names of species and model_species
     species_list = csv_read('{}/../species.tab'.format(exp_bin))
@@ -36,15 +39,17 @@ def main():
 
     # table body
     for mea in measures:
-        out_tab = header
+        out_tab = header.copy()
         for species in species_list:
             for level in test_level:
                 species_key = ['{}_{}'.format(species, level)]
+
                 # check if exp2 has been conducted
                 tab_path = '{}/{}/EVM/{}/evaluation/{}.eval.tab'.format(workdir, \
                     species, level, mea)
                 if os.path.exists(tab_path):
                     tab = csv_read(tab_path)
+                    tab[-1] = [round(float(i), 2) for i in tab[-1]]
                     out_tab.append(species_key + tab[-1])
                     continue
 
@@ -57,10 +62,12 @@ def main():
                     for i in range(0, len(tab[-1])):
                         if i%3 == 2:
                             line += [' ', ' ']
-                        line.append(tab[-1][i])
+                        line.append(round(float(tab[-1][i]), 2))
                     out_tab.append(line)
 
-        csv_write(out_tab, '{}/{}.eval.tab'.format(workdir, mea))
+        csv_write(out_tab, '{}/{}.eval.tab'.format(out_dir, mea))
+        
+    sys.stderr.write('### Finished, results are located at {}\n'.format(out_dir))
 
 def csv_write(tab, out_path):
     with open(out_path, 'w+') as file:

@@ -3,7 +3,7 @@
 # author: Lars Gabriel
 #
 # eval_exp2.py: Evaluate a set of partitions from a genome for:
-#           BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TESEBRA_default
+#           BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TSEBRA_default
 # ==============================================================
 import argparse
 import subprocess as sp
@@ -42,7 +42,7 @@ workdir = ''
 partition_list = []
 modes = ['cds', 'trans', 'gene']
 measures = ['F1', 'Sn', 'Sp']
-methods = ['BRAKER1', 'BRAKER2', 'EVM', 'TSEBRA_EVM', 'TESEBRA_default']
+methods = ['BRAKER1', 'BRAKER2', 'EVM', 'TSEBRA_EVM', 'TSEBRA_default']
 methods_files = ['braker1.gtf', 'braker2.gtf', 'evm.gtf', 'tsebra_EVM.gtf', \
     'tsebra_default.gtf']
 part_eval_result = []
@@ -66,7 +66,7 @@ def main():
 
     eval = {}
     for method, gene_pred in zip(methods, methods_files):
-        eval.update({method : job(gene_pred)})
+        eval.update({method : multi_proc(gene_pred)})
 
     full_eval(eval)
 
@@ -115,23 +115,23 @@ def full_eval(eval):
     csv_writer(tab, '{}/evaluation/full.eval.out'.format(workdir))
 
 def csv_writer(tab, out_path):
+    # write table with delimiter '\t'
     with open(out_path, 'w+') as file:
         table = csv.writer(file, delimiter='\t')
         for line in tab:
             table.writerow(line)
 
 def collector(r):
+    # collect results from multiprocessing
     global part_eval_result
     part_eval_result.append(r)
 
-def job(gene_pred):
+def multi_proc(gene_pred):
+    # run evaluation in parallel
     global part_eval_result
 
     part_eval_result = []
     job_results = []
-
-    #for part in partition_list:
-        #collector(eval_part(part[3], gene_pred))
 
     pool = mp.Pool(threads)
     for part in partition_list:
@@ -156,12 +156,14 @@ def job(gene_pred):
 
 
 def eval_part(exec_dir, gene_pred):
+    # eval one partition for all test level
     part_name = exec_dir.split('/')[-1]
     score = {}
     gene_pred = '{}/{}'.format(exec_dir, gene_pred)
 
     if os.stat(gene_pred).st_size == 0:
         count = count_trans_cds('{}/annot.gtf'.format(exec_dir))
+        print(count)
         for m in modes:
             score.update({m : Score(0,count[m],0)})
         return score
@@ -224,7 +226,7 @@ def parseCmd():
         dictionary: Dictionary with arguments
     """
     parser = argparse.ArgumentParser(description='Evaluate a set of partitions ' \
-        + 'from a genome for predictions from: BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TESEBRA_default.')
+        + 'from a genome for predictions from: BRAKER1, BRAKER2, EVM, TSEBRA_EVM, TSEBRA_default.')
     parser.add_argument('--test_level', type=str,
         help='One of "species_excluded", "family_excluded" or "order_excluded".')
     parser.add_argument('--species_dir', type=str,

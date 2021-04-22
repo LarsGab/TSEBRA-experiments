@@ -3,7 +3,7 @@
 # author: Lars Gabriel
 #
 # eval_exp1.py: Evaluate a set of partitions from a genome for:
-#           BRAKER1, BRAKER2, TESEBRA_default
+#           BRAKER1, BRAKER2, TSEBRA_default
 # ==============================================================
 import argparse
 import subprocess as sp
@@ -17,7 +17,7 @@ class EvalError(Exception):
 species_dir = ''
 modes = ['cds', 'trans', 'gene']
 measures = ['F1', 'Sn', 'Sp']
-methods = ['BRAKER1', 'BRAKER2', 'TESEBRA_default']
+methods = ['BRAKER1', 'BRAKER2', 'TSEBRA_default']
 methods_files = ['braker1/braker.gtf', 'braker2/{}/braker.gtf', 'tsebra_default/{}/tsebra_default.gtf']
 test_level = ''
 
@@ -100,7 +100,7 @@ def parseCmd():
         dictionary: Dictionary with arguments
     """
     parser = argparse.ArgumentParser(description='Evaluate predictions ' \
-        + 'from: BRAKER1, BRAKER2, TESEBRA_default ')
+        + 'from: BRAKER1, BRAKER2, TSEBRA_default ')
     parser.add_argument('--test_level', type=str,
         help='One of "species_excluded", "family_excluded" or "order_excluded"')
     parser.add_argument('--species_dir', type=str,
