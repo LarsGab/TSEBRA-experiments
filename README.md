@@ -197,6 +197,9 @@ eval_summary.py --parent_dir $parent_dir
 Each row contains the result for a species and test level. A row contains the result for the 2. Experiment if results for both experiments are present.
 You can find the table in the parent directory.
 
+## Licence
+All source code, i.e. `bin/*.py` and `bin/*.pl` are under the Artistic License (see <https://opensource.org/licenses/Artistic-2.0>).
+
 ### References
 <b id="ref1">[1]</b> Hoff, Katharina J, Simone Lange, Alexandre Lomsadze, Mark Borodovsky, and Mario Stanke. 2015. “BRAKER1: Unsupervised Rna-Seq-Based Genome Annotation with Genemark-et and Augustus.” *Bioinformatics* 32 (5). Oxford University Press: 767--69.[↑](#a1)
 
