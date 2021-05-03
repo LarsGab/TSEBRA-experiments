@@ -132,7 +132,7 @@ def multi_proc(gene_pred):
 
     part_eval_result = []
     job_results = []
-
+    
     pool = mp.Pool(threads)
     for part in partition_list:
         r = pool.apply_async(eval_part, (part[3], gene_pred), callback=collector)
@@ -163,7 +163,6 @@ def eval_part(exec_dir, gene_pred):
 
     if os.stat(gene_pred).st_size == 0:
         count = count_trans_cds('{}/annot.gtf'.format(exec_dir))
-        print(count)
         for m in modes:
             score.update({m : Score(0,count[m],0)})
         return score

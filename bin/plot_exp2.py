@@ -67,10 +67,13 @@ def main():
     # create legend
     legend1_elements = []
     for key in color.keys():
+        col = color[key]
+        if key == 'TSEBRA_default':
+            key = 'TSEBRA'
         legend1_elements.append(Line2D([0], [0], marker='o', color='none', alpha=0.8,\
-            markerfacecolor=color[key], markeredgecolor='none', markersize=15, label=key))
+            markerfacecolor=col, markeredgecolor='none', markersize=15, label=key))
 
-    fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 6))
+    fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 5.943))
     plt.setp(axes.flat, xlabel='Specificity', ylabel='Sensitivity')
 
     # write text for eval level
@@ -101,7 +104,10 @@ def main():
             sp = '{}_Sp'.format(level)
             sn = '{}_Sn'.format(level)
             axis[j].add_coords(mean(coords[method][sp]), mean(coords[method][sn]))
-            axes[j].scatter(mean(coords[method][sp]), mean(coords[method][sn]), color=color[method], linewidths=2, \
+            x = mean(coords[method][sp])
+            y = mean(coords[method][sn])
+
+            axes[j].scatter(x, y, color=color[method], linewidths=2, \
                 edgecolor='none', marker='o', s=100, alpha=0.8)
 
     # set axis ranges and ticks
@@ -114,13 +120,28 @@ def main():
         axes[j].xaxis.set_ticks(axis[j].x_ticks)
         axes[j].yaxis.set_ticks(axis[j].y_ticks)
 
-    fig.legend(bbox_to_anchor=(0.05, 0.03, 0.92, 0), handles=legend1_elements, loc='lower center', \
+
+    # plot Sn+Sp line for experiment 2 results
+    for method in ['EVM', 'TSEBRA_EVM']:
+        for j, level in zip([0,1,2], ['cds', 'trans', 'gene']):
+            sp = '{}_Sp'.format(level)
+            sn = '{}_Sn'.format(level)
+            x = mean(coords[method][sp])
+            y = mean(coords[method][sn])
+            axes[j].plot([x+y,0], [0, x+y], '--', linewidth=2, \
+                alpha= 0.5, color=color[method])
+            y_text_coord = 1/5 * axis[j].y_range[0] + 4/5 * axis[j].y_range[1]
+            offset = 0.05 * (axis[j].y_range[1] - axis[j].y_range[0])
+            axes[j].text(x+y-y_text_coord - offset, y_text_coord, 'Sn+Sp', color=color[method], size=10, \
+                rotation=-45)
+
+    fig.legend(bbox_to_anchor=(0.05, 0.03, 0.93, 0), handles=legend1_elements, loc='lower center', \
         borderaxespad=0., ncol=5, mode='expand')
     fig.tight_layout()
-    fig.subplots_adjust(left=0.05, right=0.97, top=0.9, bottom=0.175)
-
+    fig.subplots_adjust(left=0.05, right=0.98, top=0.9, bottom=0.175)
     fig.savefig('{}/evaluation/plot_exp2.png'.format(data), dpi=fig.dpi)
     sys.stderr.write('### Finished, plot is located at {}/evaluation/plot_exp2.png\n'.format(data))
+
 def read_eval(eval_file):
     coords = []
     if os.path.exists(eval_file):
